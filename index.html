@@ -10,13 +10,13 @@
   </head>
   <body>
     <header id="user-input-wrap" class="main-section">
-      <h1 id="ideabox-title-text">2do<span>box</span></h1>
+      <h1 aria-lable="Manage your list of to do's" id="box-title-text">2do<span>box</span></h1>
       <form id="user-input-form">
         <label for="title-input">Title</label>
         <label for="description-input">Body</label>
         <input id ="title-input" class="single-line-input" type="text" name="title-input" placeholder="Title">
         <textarea id="description-input" class="multi-line-input" type="text" name="description-input" placeholder="Body"></textarea>
-        <button id="save-button" class="rectangular-blue-button" type="input">save</button>
+        <button id="save-button" class="save-inputs-button" type="input">save</button>
       </form>
     </header>
     <section id="box-section" class="main-section">
@@ -24,8 +24,7 @@
         <label for="search-input">Search</label>
         <input id="search-input" class="single-line-input" type="text" name="search-input" placeholder="Search">
       </form>
-      <section id="card-section">
-      </section>
+      <section id="card-section"></section>
     </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
