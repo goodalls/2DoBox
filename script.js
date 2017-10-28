@@ -4,71 +4,91 @@
 
 // card creation event listeners
 
-$(window).on('load', function() {
-  getIdeasFromStorage();
-})
+$(window).on('load', persistCards)
 
-$('#save-button').on('click', function(event) {
+function persistCards () {
+  getIdeasFromStorage();
+};
+
+$('#save-button').on('click', saveButtonClick)
+
+function saveButtonClick (event) {
   event.preventDefault();
-  genCard();
+  captureUserInput();
   resetInputFields();
-});
+};
 
 // card button event listeners
 
-$('#card-section').on('click', '.card .delete', function(event) {
+$('#card-section').on('click', '.card .delete', deleteButtonClick)
+
+function deleteButtonClick (event) {
   event.preventDefault();
   deleteButton(this);
   var currentId = event.target.closest('.card').id
   localStorage.removeItem(currentId);
-})
+};
 
-$('#card-section').on('click', '.card .downvote', function(event) {
+$('#card-section').on('click', '.card .downvote', downVoteButtonClick)
+
+function downVoteButtonClick (event) {
   event.preventDefault();
   downvoteButton();
-})
+};
 
-$('#card-section').on('click', '.card .upvote', function(event) {
+$('#card-section').on('click', '.card .upvote', upVoteButtonClick)
+
+function upVoteButtonClick(event) {
   event.preventDefault();
   upvoteButton();
-})
+};
 
 // edit card event listeners
 
-$('#card-section').on('blur', '.card .title', function(event) {
+$('#card-section').on('blur', '.card .title', editCardTitleBlur)
+
+function editCardTitleBlur(event) {
   event.preventDefault();
   editCardTitle();
-})
+};
 
-$('#card-section').keypress('.card .title', function(event) {
+$('#card-section').keypress('.card .title', editCardTitleKeypress)
+
+function editCardTitleKeypress(event) {
   if(event.keyCode === 13){
     event.preventDefault();
     editCardTitle();
   }
-})
+};
 
-$('#card-section').on('blur', '.card .description', function(event) {
+$('#card-section').on('blur', '.card .description', editCardDescriptinBlur)
+
+function editCardDescriptinBlur(event) {
   event.preventDefault();
   editCardDescription();
-})
+};
 
-$('#card-section').keypress('.card .description', function(event) {
+$('#card-section').keypress('.card .description', editCardDescriptionKeypress)
+
+function editCardDescriptionKeypress(event) {
   if(event.keyCode === 13){
     event.preventDefault();
     editCardDescription();
   }
-})
+};
 
 // search event listeners
 
 $('#search-input').keyup(searchFunction);
 
-$('#search-input').keypress(function(event) {
+$('#search-input').keypress(removeFocus)
+
+function removeFocus(event) {
   if(event.keyCode === 13) {
     event.preventDefault();
     $(this).blur();
   } 
-});
+};
 
 // FUNCTIONS 
 
@@ -81,7 +101,7 @@ function Idea(title, body, idNum, quality) {
   this.quality = quality || 'swill';
 }
 
-function genCard(title, body) {
+function captureUserInput (title, body) {
   var title = $('#title-input').val();
   var body = $('#description-input').val();
   var newIdea = new Idea(title, body, Date.now());
@@ -123,7 +143,7 @@ function getIdeasFromStorage() {
     var parsedIdea = JSON.parse(retrievedIdea);
     prependIdea(parsedIdea);
   }
-}
+};
 
 // card button functions
 
@@ -195,4 +215,4 @@ function searchFunction(event) {
       $(`#${currentId}`).css( "display", "none");
     }
   }
-}
+};
