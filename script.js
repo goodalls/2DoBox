@@ -1,6 +1,6 @@
 // VARIABLE
 
-var $ideaCardSection = $('#idea-card-section');
+var $ideaCardSection = $('#card-section');
 var $searchInput = $('#search-input');
 
 // EVENT LISTENERS
@@ -19,43 +19,43 @@ $('#save-button').on('click', function(event) {
 
 // card button event listeners
 
-$ideaCardSection.on('click', '.idea-card .delete', function(event) {
+$ideaCardSection.on('click', '.card .delete', function(event) {
   event.preventDefault();
   deleteButton(this);
-  var currentId = event.target.closest('.idea-card').id
+  var currentId = event.target.closest('.card').id
   localStorage.removeItem(currentId);
 })
 
-$ideaCardSection.on('click', '.idea-card .downvote', function(event) {
+$ideaCardSection.on('click', '.card .downvote', function(event) {
   event.preventDefault();
   downvoteButton();
 })
 
-$ideaCardSection.on('click', '.idea-card .upvote', function(event) {
+$ideaCardSection.on('click', '.card .upvote', function(event) {
   event.preventDefault();
   upvoteButton();
 })
 
 // edit card event listeners
 
-$ideaCardSection.on('blur', '.idea-card .idea-title', function(event) {
+$ideaCardSection.on('blur', '.card .title', function(event) {
   event.preventDefault();
   editCardTitle();
 })
 
-$ideaCardSection.keypress('.idea-card .idea-title', function(event) {
+$ideaCardSection.keypress('.card .title', function(event) {
   if(event.keyCode === 13){
     event.preventDefault();
     editCardTitle();
   }
 })
 
-$ideaCardSection.on('blur', '.idea-card .idea-description', function(event) {
+$ideaCardSection.on('blur', '.card .description', function(event) {
   event.preventDefault();
   editCardDescription();
 })
 
-$ideaCardSection.keypress('.idea-card .idea-description', function(event) {
+$ideaCardSection.keypress('.card .description', function(event) {
   if(event.keyCode === 13){
     event.preventDefault();
     editCardDescription();
@@ -98,15 +98,15 @@ function putIntoStorage(object) {
 } 
 
 function prependIdea(idea) {
-  $ideaCardSection.prepend(`<article id="${idea['idNum']}" class="idea-card">
+  $ideaCardSection.prepend(`<article id="${idea['idNum']}" class="card">
       <form id="card-meta-data-form">
-        <div id="idea-card-title-container">
-        <h2 contenteditable=true id="card-title" class="card-headings idea-title">${idea['title']}</h2>
+        <div id="card-title-container">
+        <h2 contenteditable=true id="card-title" class="card-headings title">${idea['title']}</h2>
         <label for="delete-button">Delete</label>
         <button id="delete-button" class="small-grey-button delete" name="delete-button"></button>
         </div>
-        <p contenteditable=true id="card-description" class="idea-description">${idea['body']}</p>
-        <div id="idea-card-quality-container">
+        <p contenteditable=true id="card-description" class="description">${idea['body']}</p>
+        <div id="card-quality-container">
           <button id="up-vote-button" class="small-grey-button upvote" name="up-vote-button"></button>
           <button id="down-vote-button" class="small-grey-button downvote" name="down-vote-button"></button>
           <h3 id="quality-display-text" class="card-headings">quality : <span class="quality">${idea['quality']}</span></h3>
@@ -131,11 +131,11 @@ function getIdeasFromStorage() {
 // card button functions
 
 function deleteButton(button) {
-  button.closest('.idea-card').remove();
+  button.closest('.card').remove();
 }
 
 function downvoteButton() {
-  var currentId = event.target.closest('.idea-card').id;
+  var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
   if (parsedObject.quality === 'genius') {
@@ -149,7 +149,7 @@ function downvoteButton() {
 }
 
 function upvoteButton() {
-  var currentId = event.target.closest('.idea-card').id;
+  var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
   if( parsedObject.quality === 'swill') {
@@ -165,19 +165,19 @@ function upvoteButton() {
 // edit card functions
 
 function editCardTitle() {
-  var currentId = event.target.closest('.idea-card').id;
+  var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
-  var newTitle = $(`#${currentId} .idea-title`).text();
+  var newTitle = $(`#${currentId} .title`).text();
   parsedObject['title'] = newTitle;
   putIntoStorage(parsedObject);
 }
 
 function editCardDescription() {
-  var currentId = event.target.closest('.idea-card').id;
+  var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
-  var newDescription = $(`#${currentId} .idea-description`).text();
+  var newDescription = $(`#${currentId} .description`).text();
   parsedObject['body'] = newDescription;
   putIntoStorage(parsedObject);
 }
