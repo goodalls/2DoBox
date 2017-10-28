@@ -1,7 +1,4 @@
 
-var $cardSection = $('#card-section');
-var $searchInput = $('#search-input');
-=======
 
 // EVENT LISTENERS
 
@@ -24,65 +21,110 @@ function saveButtonClick (event) {
 
 // card button event listeners
 
-$('#card-section').on('click', '.card .delete', deleteButtonClick)
+$('#card-section').on('click', cardHandeler)
 
-function deleteButtonClick (event) {
-  event.preventDefault();
-  deleteButton(this);
+function cardHandeler (event) {
   var currentId = event.target.closest('.card').id
-  localStorage.removeItem(currentId);
-};
-
-$('#card-section').on('click', '.card .downvote', downVoteButtonClick)
-
-function downVoteButtonClick (event) {
   event.preventDefault();
-  downvoteButton();
+  if (event.target.closest('.delete')) {
+    event.target.closest('article').remove();
+    localStorage.removeItem(currentId);
+  } if (event.target.closest('.upvote')) {
+    upvoteButton();
+  } if (event.target.closest('.downvote')) {
+    downvoteButton();
+  }
 };
 
-$('#card-section').on('click', '.card .upvote', upVoteButtonClick)
+// $('#card-section').on('click', '.card .delete', deleteButtonClick)
 
-function upVoteButtonClick(event) {
-  event.preventDefault();
-  upvoteButton();
-};
+// function deleteButtonClick (event) {
+//   event.preventDefault();
+//   deleteButton(this);
+//   var currentId = event.target.closest('.card').id
+//   localStorage.removeItem(currentId);
+// };
+
+// $('#card-section').on('click', '.card .downvote', downVoteButtonClick)
+
+// function downVoteButtonClick (event) {
+//   event.preventDefault();
+//   downvoteButton();
+// };
+
+// $('#card-section').on('click', '.card .upvote', upVoteButtonClick)
+
+
+// function upVoteButtonClick(event) {
+//   event.preventDefault();
+//   upvoteButton();
+// };
+
 
 // edit card event listeners
 
 
-$('#card-section').on('blur', '.card .title', editCardTitleBlur)
 
-function editCardTitleBlur(event) {
+
+// $('#card-section').on('blur', '.card .title', editCardTitleBlur)
+// $('#card-section').on('blur', '.card .description', editCardDescriptinBlur)
+
+// function editCardDescriptinBlur(event) {
+//   event.preventDefault();
+//   editCardDescription();
+// };
+
+$('#card-section').on('keyup blur', editCardBlur)
+
+function editCardBlur(event) {
+  if (event.target.closest('.title')){
   event.preventDefault();
   editCardTitle();
-};
-
-$('#card-section').keypress('.card .title', editCardTitleKeypress)
-
-function editCardTitleKeypress(event) {
-  if(event.keyCode === 13){
-    event.preventDefault();
-    editCardTitle();
-  }
-};
-
-$('#card-section').on('blur', '.card .description', editCardDescriptinBlur)
-
-function editCardDescriptinBlur(event) {
-  event.preventDefault();
-  editCardDescription();
-};
-
-$('#card-section').keypress('.card .description', editCardDescriptionKeypress)
-
-function editCardDescriptionKeypress(event) {
-  if(event.keyCode === 13){
+  } if (event.target.closest('.description')) {
     event.preventDefault();
     editCardDescription();
   }
 };
 
-// search event listeners
+
+
+
+
+// $('#card-section').keypress('.card .description', editCardDescriptionKeypress)
+
+// function editCardDescriptionKeypress(event) {
+//   if(event.keyCode === 13){
+//     event.preventDefault();
+//     editCardDescription();
+//   }
+// };
+
+// $('#card-section').keypress('.card .title', editCardTitleKeypress)
+
+// function editCardTitleKeypress(event) {
+//   if(event.keyCode === 13){
+//     event.preventDefault();
+//     editCardTitle();
+//   }
+// };
+
+// $('#card-section').keypress(editCardKeypress)
+
+// function editCardKeypress (event) {
+//   if (event.target.closest('.description' && event.keyCode === 13)) {
+//    console.log('description enter key pressed')
+//    event.preventDefault();
+//    editCardDescription();
+//   } if (event.target.closest('.title' && event.keyCode === 13)) {
+//     console.log('title enter key pressed')
+//     event.preventDefault();
+//     editCardTitle();
+//   }
+// };
+
+
+
+// search 
 
 $('#search-input').keyup(searchFunction);
 
@@ -93,6 +135,22 @@ function removeFocus(event) {
     event.preventDefault();
     $(this).blur();
   } 
+};
+
+function searchFunction(event) {
+  event.preventDefault();
+  var searchText = $(this).val();
+  var filteredText = searchText.toUpperCase();
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var parsedObject = JSON.parse(retrievedCard);
+    var currentId = parsedObject['idNum'];
+    if (parsedObject['title'].toUpperCase().includes(filteredText) || parsedObject['body'].toUpperCase().includes(filteredText)) {
+      $(`#${currentId}`).css( "display", "" );
+    } else {
+      $(`#${currentId}`).css( "display", "none");
+    }
+  }
 };
 
 // FUNCTIONS 
@@ -153,9 +211,9 @@ function getCardsFromStorage() {
 
 // card button functions
 
-function deleteButton(button) {
-  button.closest('.card').remove();
-}
+// function deleteButton(button) {
+//   button.closest('.card').remove();
+// }
 
 function downvoteButton() {
   var currentId = event.target.closest('.card').id;
@@ -205,20 +263,5 @@ function editCardDescription() {
   putIntoStorage(parsedObject);
 }
 
-// search function
 
-function searchFunction(event) {
-  event.preventDefault();
-  var searchText = $(this).val();
-  var filteredText = searchText.toUpperCase();
-  for (var i = 0; i < localStorage.length; i++) {
-    var retrievedCard = localStorage.getItem(localStorage.key(i));
-    var parsedObject = JSON.parse(retrievedCard);
-    var currentId = parsedObject['idNum'];
-    if (parsedObject['title'].toUpperCase().includes(filteredText) || parsedObject['body'].toUpperCase().includes(filteredText)) {
-      $(`#${currentId}`).css( "display", "" );
-    } else {
-      $(`#${currentId}`).css( "display", "none");
-    }
-  }
-};
+
