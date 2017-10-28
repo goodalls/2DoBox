@@ -4,13 +4,14 @@
 
 // card creation event listeners
 
-$(window).on('load', persistCards)
+
+$(window).on('load', persistCards);
 
 function persistCards () {
-  getIdeasFromStorage();
+  getCardsFromStorage();
 };
 
-$('#save-button').on('click', saveButtonClick)
+$('#save-button').on('click', saveButtonClick);
 
 function saveButtonClick (event) {
   event.preventDefault();
@@ -24,15 +25,13 @@ $('#card-section').on('click', cardHandeler)
 
 function cardHandeler (event) {
   var currentId = event.target.closest('.card').id
+  event.preventDefault();
   if (event.target.closest('.delete')) {
-    event.preventDefault(id);
     event.target.closest('article').remove();
     localStorage.removeItem(currentId);
   } if (event.target.closest('.upvote')) {
-    event.preventDefault();
     upvoteButton();
   } if (event.target.closest('.downvote')) {
-    event.preventDefault();
     downvoteButton();
   }
 };
@@ -55,10 +54,12 @@ function cardHandeler (event) {
 
 // $('#card-section').on('click', '.card .upvote', upVoteButtonClick)
 
+
 // function upVoteButtonClick(event) {
 //   event.preventDefault();
 //   upvoteButton();
 // };
+
 
 // edit card event listeners
 
@@ -141,8 +142,8 @@ function searchFunction(event) {
   var searchText = $(this).val();
   var filteredText = searchText.toUpperCase();
   for (var i = 0; i < localStorage.length; i++) {
-    var retrievedIdea = localStorage.getItem(localStorage.key(i));
-    var parsedObject = JSON.parse(retrievedIdea);
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var parsedObject = JSON.parse(retrievedCard);
     var currentId = parsedObject['idNum'];
     if (parsedObject['title'].toUpperCase().includes(filteredText) || parsedObject['body'].toUpperCase().includes(filteredText)) {
       $(`#${currentId}`).css( "display", "" );
@@ -156,7 +157,7 @@ function searchFunction(event) {
 
 // create card function
 
-function Idea(title, body, idNum, quality) {
+function Card(title, body, idNum, quality) {
   this.title = title;
   this.body = body;
   this.idNum = idNum;
@@ -166,29 +167,30 @@ function Idea(title, body, idNum, quality) {
 function captureUserInput (title, body) {
   var title = $('#title-input').val();
   var body = $('#description-input').val();
-  var newIdea = new Idea(title, body, Date.now());
-  prependIdea(newIdea);
-  putIntoStorage(newIdea);
+  var newCard = new Card(title, body, Date.now());
+  prependCard(newCard);
+  putIntoStorage(newCard);
 }
 
 function putIntoStorage(object) {
-  var stringIdea = JSON.stringify(object);
-  localStorage.setItem(object['idNum'], stringIdea);
+  var stringCard = JSON.stringify(object);
+  localStorage.setItem(object['idNum'], stringCard);
 } 
 
-function prependIdea(idea) {
-  $('#card-section').prepend(`<article id="${idea['idNum']}" class="card">
+
+function prependCard(card) {
+  $('#card-section').prepend(`<article id="${card['idNum']}" class="card">
       <form id="card-meta-data-form">
         <div id="card-title-container">
-        <h2 contenteditable=true id="card-title" class="card-headings title">${idea['title']}</h2>
+        <h2 contenteditable=true id="card-title" class="card-headings title">${card['title']}</h2>
         <label for="delete-button">Delete</label>
         <button id="delete-button" class="small-grey-button delete" name="delete-button"></button>
         </div>
-        <p contenteditable=true id="card-description" class="description">${idea['body']}</p>
+        <p contenteditable=true id="card-description" class="description">${card['body']}</p>
         <div id="card-quality-container">
           <button id="up-vote-button" class="small-grey-button upvote" name="up-vote-button"></button>
           <button id="down-vote-button" class="small-grey-button downvote" name="down-vote-button"></button>
-          <h3 id="quality-display-text" class="card-headings">quality : <span class="quality">${idea['quality']}</span></h3>
+          <h3 id="quality-display-text" class="card-headings">quality : <span class="quality">${card['quality']}</span></h3>
         </div>
       </form>
     </article>`);
@@ -199,11 +201,11 @@ function resetInputFields() {
   $form[0].reset();
 }
 
-function getIdeasFromStorage() {
+function getCardsFromStorage() {
   for(var i = 0; i < localStorage.length; i++) {
-    var retrievedIdea = localStorage.getItem(localStorage.key(i));
-    var parsedIdea = JSON.parse(retrievedIdea);
-    prependIdea(parsedIdea);
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var parsedCard = JSON.parse(retrievedCard);
+    prependCard(parsedCard);
   }
 };
 
@@ -260,5 +262,6 @@ function editCardDescription() {
   parsedObject['body'] = newDescription;
   putIntoStorage(parsedObject);
 }
+
 
 
