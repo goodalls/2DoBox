@@ -1,7 +1,4 @@
-// VARIABLE
 
-var $ideaCardSection = $('#card-section');
-var $searchInput = $('#search-input');
 
 // EVENT LISTENERS
 
@@ -19,43 +16,43 @@ $('#save-button').on('click', function(event) {
 
 // card button event listeners
 
-$ideaCardSection.on('click', '.card .delete', function(event) {
+$('#card-section').on('click', '.card .delete', function(event) {
   event.preventDefault();
   deleteButton(this);
   var currentId = event.target.closest('.card').id
   localStorage.removeItem(currentId);
 })
 
-$ideaCardSection.on('click', '.card .downvote', function(event) {
+$('#card-section').on('click', '.card .downvote', function(event) {
   event.preventDefault();
   downvoteButton();
 })
 
-$ideaCardSection.on('click', '.card .upvote', function(event) {
+$('#card-section').on('click', '.card .upvote', function(event) {
   event.preventDefault();
   upvoteButton();
 })
 
 // edit card event listeners
 
-$ideaCardSection.on('blur', '.card .title', function(event) {
+$('#card-section').on('blur', '.card .title', function(event) {
   event.preventDefault();
   editCardTitle();
 })
 
-$ideaCardSection.keypress('.card .title', function(event) {
+$('#card-section').keypress('.card .title', function(event) {
   if(event.keyCode === 13){
     event.preventDefault();
     editCardTitle();
   }
 })
 
-$ideaCardSection.on('blur', '.card .description', function(event) {
+$('#card-section').on('blur', '.card .description', function(event) {
   event.preventDefault();
   editCardDescription();
 })
 
-$ideaCardSection.keypress('.card .description', function(event) {
+$('#card-section').keypress('.card .description', function(event) {
   if(event.keyCode === 13){
     event.preventDefault();
     editCardDescription();
@@ -64,9 +61,9 @@ $ideaCardSection.keypress('.card .description', function(event) {
 
 // search event listeners
 
-$searchInput.keyup(searchFunction);
+$('#search-input').keyup(searchFunction);
 
-$searchInput.keypress(function(event) {
+$('#search-input').keypress(function(event) {
   if(event.keyCode === 13) {
     event.preventDefault();
     $(this).blur();
@@ -98,7 +95,7 @@ function putIntoStorage(object) {
 } 
 
 function prependIdea(idea) {
-  $ideaCardSection.prepend(`<article id="${idea['idNum']}" class="card">
+  $('#card-section').prepend(`<article id="${idea['idNum']}" class="card">
       <form id="card-meta-data-form">
         <div id="card-title-container">
         <h2 contenteditable=true id="card-title" class="card-headings title">${idea['title']}</h2>
