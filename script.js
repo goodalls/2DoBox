@@ -9,7 +9,16 @@ $(window).on('load', persistCards);
 
 function persistCards () {
   getCardsFromStorage();
+  // $('#save-button').prop('disabled', true)
 };
+
+function disableSaveButton() {
+  if ($('#title-input, #description-input').val() === "") {
+    $('#save-button').prop('disabled', true);
+  } else {
+    $('#save-button').prop('disabled', false);
+  }
+}
 
 $('#save-button').on('click', saveButtonClick);
 
@@ -19,31 +28,31 @@ function saveButtonClick (event) {
   resetInputFields();
 };
 
-// card button event listeners
+// card button event listener
 
 $('#card-section').on('click', cardHandeler)
 
 function cardHandeler (event) {
-  var currentId = event.target.closest('.card').id
   event.preventDefault();
-  if (event.target.closest('.delete')) {
-    event.target.closest('article').remove();
-    localStorage.removeItem(currentId);
-  } if (event.target.closest('.upvote')) {
+  deleteButtonClick(event);
+  if (event.target.closest('.upvote')) {
     upvoteButton();
   } if (event.target.closest('.downvote')) {
     downvoteButton();
   }
 };
 
+function deleteButtonClick (event) {
+  var currentId = event.target.closest('.card').id
+  if (event.target.closest('.delete')){
+  event.target.closest('article').remove();
+  localStorage.removeItem(currentId);
+  }
+};
+
 // $('#card-section').on('click', '.card .delete', deleteButtonClick)
 
-// function deleteButtonClick (event) {
-//   event.preventDefault();
-//   deleteButton(this);
-//   var currentId = event.target.closest('.card').id
-//   localStorage.removeItem(currentId);
-// };
+
 
 // $('#card-section').on('click', '.card .downvote', downVoteButtonClick)
 
@@ -126,7 +135,7 @@ function editCardBlur(event) {
 
 // search 
 
-$('#search-input').keyup(searchFunction);
+
 
 $('#search-input').keypress(removeFocus)
 
@@ -137,14 +146,18 @@ function removeFocus(event) {
   } 
 };
 
+$('#search-input').keyup(searchFunction);
+
 function searchFunction(event) {
   event.preventDefault();
   var searchText = $(this).val();
   var filteredText = searchText.toUpperCase();
+  
   for (var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedCard);
     var currentId = parsedObject['idNum'];
+    
     if (parsedObject['title'].toUpperCase().includes(filteredText) || parsedObject['body'].toUpperCase().includes(filteredText)) {
       $(`#${currentId}`).css( "display", "" );
     } else {
