@@ -15,16 +15,30 @@
         <label for="title-input">Title</label>
         <label for="description-input">Body</label>
         <input id ="title-input" class="single-line-input" type="text" name="title-input" placeholder="Title">
-        <textarea id="description-input" class="multi-line-input" type="text" name="description-input" placeholder="Body"></textarea>
+        <textarea id="description-input" class="multi-line-input" type="text" name="description-input" placeholder="To-do"></textarea>
         <button id="save-button" class="save-inputs-button" type="input">save</button>
       </form>
     </header>
-    <section id="box-section" class="main-section">
+    <section id="box-section" class="todo-section">
+      <h2 class="to-do-label">TO<span>DO:</span></h2>
+      <nav>
+        <ul>
+          <li><button type="button" class="activeBtn">critical </button></li>
+          <li><button type="button">high</button></li>
+          <li><button type="button">normal</button></li>
+          <li><button type="button">low</button></li>
+          <li><button type="button">none</button></li>
+        </ul>
+      </nav>
       <form id="search-input-form">
         <label for="search-input">Search</label>
-        <input id="search-input" class="single-line-input" type="text" name="search-input" placeholder="Search">
+        <input id="search-input" class="single-line-input" type="text" name="search-input" placeholder="Filter">
+        <button type="button" class="show-completed">Show Completed TODOs</button>
       </form>
-      <section id="card-section"></section>
+      <section id="card-section">
+        <button type="button" class="show-more">Show More TODOs</button>
+      </section>
+
     </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>

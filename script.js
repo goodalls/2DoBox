@@ -193,7 +193,6 @@ function putIntoStorage(object) {
 
 function prependCard(card) {
   $('#card-section').prepend(`<article id="${card['idNum']}" class="card">
-      <form id="card-meta-data-form">
         <div id="card-title-container">
         <h2 contenteditable=true id="card-title" class="card-headings title">${card['title']}</h2>
         <label for="delete-button">Delete</label>
@@ -201,11 +200,11 @@ function prependCard(card) {
         </div>
         <p contenteditable=true id="card-description" class="description">${card['body']}</p>
         <div id="card-quality-container">
-          <button id="up-vote-button" class="small-grey-button upvote" name="up-vote-button"></button>
-          <button id="down-vote-button" class="small-grey-button downvote" name="down-vote-button"></button>
-          <h3 id="quality-display-text" class="card-headings">quality : <span class="quality">${card['quality']}</span></h3>
+          <button class="small-grey-button upvote" name="up-vote-button"></button>
+          <button class="small-grey-button downvote" name="down-vote-button"></button>
+          <h3 class="card-headings importance-level">quality : <span class="quality">${card['quality']}</span></h3>
+          <button class="completed-card-button" name="completed-button">Completed Button</button>
         </div>
-      </form>
     </article>`);
 }
 
