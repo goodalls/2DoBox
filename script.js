@@ -9,16 +9,18 @@ $(window).on('load', persistCards);
 
 function persistCards () {
   getCardsFromStorage();
-  // $('#save-button').prop('disabled', true)
+  $('#save-button').prop('disabled', true)
 };
 
+$('#description-input , #title-input').on('keyup', disableSaveButton)
+
 function disableSaveButton() {
-  if ($('#title-input, #description-input').val() === "") {
+  if ($('#title-input').val() === "" || $('#description-input').val() === "") {
     $('#save-button').prop('disabled', true);
   } else {
     $('#save-button').prop('disabled', false);
   }
-}
+};
 
 $('#save-button').on('click', saveButtonClick);
 
@@ -26,6 +28,7 @@ function saveButtonClick (event) {
   event.preventDefault();
   captureUserInput();
   resetInputFields();
+  disableSaveButton();
 };
 
 // card button event listener
