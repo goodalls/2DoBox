@@ -22,6 +22,10 @@ label {
   display:none;
 }
 
+button {
+  cursor: pointer;
+}
+
 /*INPUT FORM*/
 
 h1 {
@@ -89,9 +93,11 @@ textarea:focus {
   flex-direction: column;
   padding: 0 15px;
   margin: auto;
-  max-width: 380px;
+  max-width: 400px;
 }
 
+.show-completed,
+.show-more,
 .save-inputs-button {
   background-color: #00A79D;
   border: none;
@@ -101,6 +107,17 @@ textarea:focus {
   min-width: 205px;
   width: 100%;
 }
+
+.show-more {
+  margin-top: 15px;
+}
+
+.show-completed:hover,
+.show-more:hover,
+.save-inputs-button:hover {
+  background-color: #045e55;
+}
+
 
 /*SECTION CONTAINER*/
 
@@ -125,6 +142,15 @@ p {
   width: 75%;
 }
 
+.card-headings.importance-level {
+  font-size: 12px;
+  padding: 5px 0px 5px 0px;
+  display: inline;
+  position: absolute;
+  left: 58px;
+  bottom: 0px;
+}
+
 .card {
   border-bottom: 2px solid #D1D2D4;
   display: flex;
@@ -136,22 +162,13 @@ p {
 
 /*BUTTON STATES*/
 
-.small-grey-button {
-  height: 26px;
-  padding: 0px 15px 0px 0px;
-}
-
 /*DOWN VOTE BUTTON*/
 
 .downvote {
-  background: url(../images/downvote.svg);
-  background-repeat: no-repeat;
-  height: 26px;
+  background: url(../images/downvote.svg) no-repeat;
 }
 
-#delete-button ,
-#down-vote-button,
-#up-vote-button {
+.small-grey-button {
   border-style: none;
   border: none;
   height: 20px;
@@ -181,16 +198,43 @@ p {
 
 .delete {
   background: url(../images/delete.svg) no-repeat;
-  
-}
-
-#delete-button {
-  margin: 0px;
+  margin: 0;
 }
 
 .delete:hover {
   background: url(../images/delete-hover.svg) no-repeat;
 }
+
+.card.completed-task {
+  background-color: #A7A9AC;
+  padding:10px;
+}
+
+
+.completed-card-button {
+  font-size: 10px;
+  margin-left: 30px;
+  background-color: transparent;
+  border: 1px solid gray;
+  position: absolute;
+  right: 0;
+}
+
+.completed-card-button{
+  background-color: transparent;
+}
+
+.completed-card-button:hover {
+  color: #fff;
+  background-color: #00A79D;
+}
+
+.completed-task .completed-card-button {
+  color: #fff;
+  background-color: #045e55;
+}
+
+
 
 /* CARD CONTAINER*/
 
@@ -199,23 +243,62 @@ p {
 }
 
 #search-input {
-  margin: 14px 0px 12px 0px;
+  margin: 0px 0px 12px 0px;
 }
 
 #box-section {
-  align-items: center;
   background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
-  padding: 0 15px;
-  max-width: 380px;
+  padding: 5px 15px 15px 15px;
+  max-width: 400px;
   margin: auto;
   overflow-y: auto;
-  height: 70%;
+  height: 79%;
 }
+
+h2.to-do-label {
+  display: inline;
+  color: #00A79D;
+  font-family: 'Roboto Slab', serif;
+  font-weight: 700;
+  margin: 10px 0 0 0;
+}
+
+h2.to-do-label span {
+  color: #6D6E71;
+}
+
+#box-section nav {
+  margin: -21px 0 5px 54px;
+}
+
+#box-section nav li{
+  display: inline;
+  margin:0 8px 3px 0;
+}
+
+#box-section nav button{
+  border: none;
+  background-color: transparent;
+  margin-bottom: 5px;
+}
+
+#box-section nav .activeBtn, 
+#box-section nav button:hover {
+  background-color: #00A79D;
+  color: #FFF;
+}
+
+#box-section nav button:active {
+  background-color: #045e55;
+  color: #FFF;
+}
+
 
 #card-section {
   width: 100%;
+  padding-top: 15px;
 }
 
 ::-webkit-scrollbar {
@@ -242,15 +325,6 @@ p {
   position: relative;
 }
 
-#quality-display-text {
-  font-size: 12px;
-  padding: 5px 0px 5px 0px;
-  display: inline;
-  position: absolute;
-  left: 58px;
-  bottom: 0px;
-}
-
 /*MEDIA QUERIES*/
 
 @media screen and (min-width: 520px) {
@@ -268,12 +342,9 @@ p {
     height: 27px;
   }
 
-  #search-input {
-    margin: 18px 0px 10px 0px;
-  }
-
   #box-section {
-    height: 72%;
+    height: 78.3;
+    padding: 10px 15px 15px 15px;
   }
 
 
