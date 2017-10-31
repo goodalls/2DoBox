@@ -5,11 +5,8 @@
 // card creation event listeners
 
 
-$(window).on('load', persistCards);
+$(window).on('load', getCardsFromStorage);
 
-function persistCards () {
-  getCardsFromStorage();
-};
 
 $('#description-input , #title-input').on('keyup', disableSaveButton)
 
@@ -37,6 +34,7 @@ $('#card-section').on('click', cardHandeler)
 function cardHandeler (event) {
   event.preventDefault();
   deleteButtonClick(event);
+  completedButtonClick(event);
   if (event.target.closest('.upvote')) {
     upvoteButton();
   } if (event.target.closest('.downvote')) {
@@ -50,6 +48,14 @@ function deleteButtonClick (event) {
   event.target.closest('article').remove();
   localStorage.removeItem(currentId);
   }
+};
+
+function completedButtonClick(event) {
+  var currentId = event.target.closest('.card').id
+  if (event.target.closest('.completed-card-button')) {
+    $(`#${currentId}`).css('textDecoration', 'line-through')
+    $(`#${currentId}`).addClass('completed')
+  };
 };
 
 
@@ -157,16 +163,14 @@ function getCardsFromStorage() {
   }
 };
 
-// card button functions
 
-// function deleteButton(button) {
-//   button.closest('.card').remove();
-// }
-// function retrieveNewQuality(currentQuality, direction) {
-//   var qualityArray = [1,2,3,4,5];
+// function retrieveNewImportance(currentQuality, direction) {
+//   var importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical'] 
+  // 
+
   //Math.Min(4, findIndex + 1)
   //Math.min
-  //Math.max
+  //Math.max(0, findIndex + 1)
 //   if (direction === 'down'){
 
 //   }
