@@ -52,11 +52,15 @@ function deleteButtonClick (event) {
 
 function completedButtonClick(event) {
   var currentId = event.target.closest('.card').id
-  if (event.target.closest('.completed-card-button')) {
-    $(`#${currentId}`).css('textDecoration', 'line-through')
-    $(`#${currentId}`).addClass('completed')
+  if (event.target.closest('.completed-card-button') && $(`#${currentId}`).hasClass('completed')) {
+      $(`#${currentId}`).removeClass('completed');
+      $(`#${currentId}`).css('textDecoration', '')
+    } else {
+      $(`#${currentId}`).addClass('completed');
+      $(`#${currentId}`).css('textDecoration', 'line-through')
+    }
   };
-};
+
 
 
 $('#card-section').on('keyup blur', editCardBlur)
