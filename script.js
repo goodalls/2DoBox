@@ -5,12 +5,8 @@
 // card creation event listeners
 
 
-$(window).on('load', persistCards);
+$(window).on('load', getCardsFromStorage);
 
-function persistCards () {
-  getCardsFromStorage();
-  $('#save-button').prop('disabled', true)
-};
 
 $('#description-input , #title-input').on('keyup', disableSaveButton)
 
@@ -38,6 +34,7 @@ $('#card-section').on('click', cardHandeler)
 function cardHandeler (event) {
   event.preventDefault();
   deleteButtonClick(event);
+  completedButtonClick(event);
   if (event.target.closest('.upvote')) {
     upvoteButton();
   } if (event.target.closest('.downvote')) {
@@ -53,38 +50,18 @@ function deleteButtonClick (event) {
   }
 };
 
-// $('#card-section').on('click', '.card .delete', deleteButtonClick)
+function completedButtonClick(event) {
+  var currentId = event.target.closest('.card').id
+  if (event.target.closest('.completed-card-button') && $(`#${currentId}`).hasClass('completed')) {
+      $(`#${currentId}`).removeClass('completed');
+      $(`#${currentId}`).css('textDecoration', '')
+    } else {
+      $(`#${currentId}`).addClass('completed');
+      $(`#${currentId}`).css('textDecoration', 'line-through')
+    }
+  };
 
 
-
-// $('#card-section').on('click', '.card .downvote', downVoteButtonClick)
-
-// function downVoteButtonClick (event) {
-//   event.preventDefault();
-//   downvoteButton();
-// };
-
-// $('#card-section').on('click', '.card .upvote', upVoteButtonClick)
-
-
-// function upVoteButtonClick(event) {
-//   event.preventDefault();
-//   upvoteButton();
-// };
-
-
-// edit card event listeners
-
-
-
-
-// $('#card-section').on('blur', '.card .title', editCardTitleBlur)
-// $('#card-section').on('blur', '.card .description', editCardDescriptinBlur)
-
-// function editCardDescriptinBlur(event) {
-//   event.preventDefault();
-//   editCardDescription();
-// };
 
 $('#card-section').on('keyup blur', editCardBlur)
 
@@ -97,42 +74,6 @@ function editCardBlur(event) {
     editCardDescription();
   }
 };
-
-
-
-
-
-// $('#card-section').keypress('.card .description', editCardDescriptionKeypress)
-
-// function editCardDescriptionKeypress(event) {
-//   if(event.keyCode === 13){
-//     event.preventDefault();
-//     editCardDescription();
-//   }
-// };
-
-// $('#card-section').keypress('.card .title', editCardTitleKeypress)
-
-// function editCardTitleKeypress(event) {
-//   if(event.keyCode === 13){
-//     event.preventDefault();
-//     editCardTitle();
-//   }
-// };
-
-// $('#card-section').keypress(editCardKeypress)
-
-// function editCardKeypress (event) {
-//   if (event.target.closest('.description' && event.keyCode === 13)) {
-//    console.log('description enter key pressed')
-//    event.preventDefault();
-//    editCardDescription();
-//   } if (event.target.closest('.title' && event.keyCode === 13)) {
-//     console.log('title enter key pressed')
-//     event.preventDefault();
-//     editCardTitle();
-//   }
-// };
 
 
 
@@ -153,15 +94,17 @@ $('#search-input').keyup(searchFunction);
 
 function searchFunction(event) {
   event.preventDefault();
-  var searchText = $(this).val();
-  var filteredText = searchText.toUpperCase();
+  // var searchText = $(this).val();
+  // var filteredText = searchText.toUpperCase();
   
   for (var i = 0; i < localStorage.length; i++) {
+    var parsedData = retrieveCard(i);
+    {obj, currentId}
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedCard);
     var currentId = parsedObject['idNum'];
     
-    if (parsedObject['title'].toUpperCase().includes(filteredText) || parsedObject['body'].toUpperCase().includes(filteredText)) {
+    if (parsedObject['title'].toUpperCase().includes(filteredText) || parsedObject['body'].toUpperCase().includes($(this).val().toUpperCase())) {
       $(`#${currentId}`).css( "display", "" );
     } else {
       $(`#${currentId}`).css( "display", "none");
@@ -224,22 +167,33 @@ function getCardsFromStorage() {
   }
 };
 
-// card button functions
 
-// function deleteButton(button) {
-//   button.closest('.card').remove();
+// function retrieveNewImportance(currentQuality, direction) {
+//   var importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical'] 
+  // 
+
+  //Math.Min(4, findIndex + 1)
+  //Math.min
+  //Math.max(0, findIndex + 1)
+//   if (direction === 'down'){
+
+//   }
+
 // }
 
 function downvoteButton() {
+  console.log(event.target.classList);
   var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
+  // retrieveNewQuality(parsedObject.quality, 'down')
   if (parsedObject.quality === 'genius') {
     parsedObject.quality = 'plausible';
     $(`#${currentId} .quality`).text('plausible');
   } else if (parsedObject.quality === 'plausible'){
     parsedObject.quality = 'swill';
     $(`#${currentId} .quality`).text('swill');
+    // $(`#${currentId} .quality`).text(parsedData.obj.quality);
   }
   putIntoStorage(parsedObject);
 }
@@ -264,8 +218,7 @@ function editCardTitle() {
   var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
-  var newTitle = $(`#${currentId} .title`).text();
-  parsedObject['title'] = newTitle;
+  parsedObject['title'] = $(`#${currentId} .title`).text();
   putIntoStorage(parsedObject);
 }
 

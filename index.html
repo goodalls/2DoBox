@@ -16,7 +16,7 @@
         <label for="description-input">Body</label>
         <input id ="title-input" class="single-line-input" type="text" name="title-input" placeholder="Title">
         <textarea id="description-input" class="multi-line-input" type="text" name="description-input" placeholder="To-do"></textarea>
-        <button id="save-button" class="save-inputs-button" type="input">save</button>
+        <button id="save-button" class="save-inputs-button" type="input" disabled>save</button>
       </form>
     </header>
     <section id="box-section" class="todo-section">
@@ -36,9 +36,10 @@
         <button type="button" class="show-completed">Show Completed TODOs</button>
       </form>
       <section id="card-section">
-        <button type="button" class="show-more">Show More TODOs</button>
+        <button type="button" class="show-more">Show More TODOs</button> 
       </section>
-
+        <!-- wondering if we can move this here because when there is no cards on the screen it things this button is the delete button 
+        <button type="button" class="show-more">Show More TODOs</button> -->
     </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
