@@ -75,8 +75,11 @@ function getCompletedCardsFromStorage() {
   for(var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedCard = JSON.parse(retrievedCard);
+    console.log(parsedCard.id)
     if(parsedCard.completed === true){
     prependCard(parsedCard);
+       $(`#${parsedCard.idNum}`).addClass('completed');
+      $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through')
     }
   }
 };
