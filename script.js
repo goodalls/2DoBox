@@ -209,7 +209,8 @@ function upvoteAction() {
   if (indexSpot !== 4) {
     indexSpot++; } 
   objectCard.importance = importanceArray[indexSpot];
-  //change .quality in the DOM
+  console.log(objectCard.importance)
+  $(`#${objectCard.idNum} .quality`).text(objectCard.importance);
   putIntoStorage(objectCard);
 }
 
@@ -220,11 +221,9 @@ function downvoteAction() {
   if (indexSpot !== 0) {
     indexSpot--; } 
   objectCard.importance = importanceArray[indexSpot];
-  //change .quality in the DOM
+  $(`#${objectCard.idNum} .quality`).text(objectCard.importance);
   putIntoStorage(objectCard);
 }
-
-
 
 function editCardTitle() {
   var currentId = event.target.closest('.card').id;
