@@ -1,10 +1,5 @@
 
 
-// EVENT LISTENERS
-
-// card creation event listeners
-
-
 $(window).on('load', getCardsFromStorage);
 
 
@@ -28,7 +23,6 @@ function saveButtonClick (event) {
 }
 
 
-
 function deleteButtonClick (event) {
   var currentId = event.target.closest('.card').id;
   if (event.target.closest('.delete')){
@@ -38,8 +32,8 @@ function deleteButtonClick (event) {
 }
 
 function completedButtonClick(event) {
-  var currentId = event.target.closest('.card').id;
-  if (event.target.closest('.completed-card-button') && $(`#${currentId}`).hasClass('completed')) {
+  var currentId = event.target.closest('.card').id
+  if ($(`#${currentId}`).hasClass('completed')) {
       $(`#${currentId}`).removeClass('completed');
       $(`#${currentId}`).css('textDecoration', '')
     } else {
@@ -48,6 +42,7 @@ function completedButtonClick(event) {
       modifyObject(currentId);
     }
   }
+
 
 function modifyObject (id) {
   var retrievedCard = localStorage.getItem(id);
@@ -66,7 +61,7 @@ function getCompletedCardsFromStorage() {
     if(parsedCard.completed === true){
     prependCard(parsedCard);
        $(`#${parsedCard.idNum}`).addClass('completed');
-      $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through');
+      $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through')
     }
   }
 }
@@ -128,7 +123,7 @@ function Card(title, body, idNum, importance) {
   this.title = title;
   this.body = body;
   this.idNum = idNum;
-  this.importance = importance || 'Low';
+  this.importance = importance || 'Normal';
   this.completed = false;
 }
 
@@ -179,41 +174,27 @@ function getCardsFromStorage() {
   }
 };
 
-
-// function retrieveNewImportance(currentQuality, direction) {
-//   var importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical'] 
-  // 
-
-  //Math.Min(4, findIndex + 1)
-  //Math.min
-  //Math.max(0, findIndex + 1)
-//   if (direction === 'down'){
-
-//   }
-
-// }
-
-// Importance Array function
-
-
-// card button event listener
-
 $('#card-section').on('click', cardHandeler);
 
 function cardHandeler (event) {
-
+  
   deleteButtonClick(event);
+  
   if (event.target.closest('.upvote')) {
-    upvoteAction();
+    
+   upvoteAction();
   } if (event.target.closest('.downvote')) {
     downvoteAction();
+  } if (event.target.closest('.completed-card-button')) {
+    completedButtonClick(event);
   }
-}
+};
 
 function retrieveData() {
   var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
+
   return parsedObject;
 }
 
