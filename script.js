@@ -36,18 +36,26 @@ function completedButtonClick(event) {
   if ($(`#${currentId}`).hasClass('completed')) {
       $(`#${currentId}`).removeClass('completed');
       $(`#${currentId}`).css('textDecoration', '')
+      modifyObjectFalse(currentId);
     } else {
       $(`#${currentId}`).addClass('completed');
       $(`#${currentId}`).css('textDecoration', 'line-through');
-      modifyObject(currentId);
+      modifyObjectTrue(currentId);
     }
   }
 
-
-function modifyObject (id) {
+  function modifyObjectTrue (id) {
   var retrievedCard = localStorage.getItem(id);
   var parsedCard = JSON.parse(retrievedCard);
   parsedCard.completed = true;
+  putIntoStorage(parsedCard);
+}
+
+
+function modifyObjectFalse (id) {
+  var retrievedCard = localStorage.getItem(id);
+  var parsedCard = JSON.parse(retrievedCard);
+  parsedCard.completed = false;
   putIntoStorage(parsedCard);
 }
 
@@ -177,11 +185,8 @@ function getCardsFromStorage() {
 $('#card-section').on('click', cardHandeler);
 
 function cardHandeler (event) {
-  
   deleteButtonClick(event);
-  
   if (event.target.closest('.upvote')) {
-    
    upvoteAction();
   } if (event.target.closest('.downvote')) {
     downvoteAction();
@@ -194,7 +199,6 @@ function retrieveData() {
   var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
-
   return parsedObject;
 }
 
@@ -205,7 +209,7 @@ function upvoteAction() {
   if (indexSpot !== 4) {
     indexSpot++; } 
   objectCard.importance = importanceArray[indexSpot];
-  
+  //change .quality in the DOM
   putIntoStorage(objectCard);
 }
 
@@ -216,6 +220,7 @@ function downvoteAction() {
   if (indexSpot !== 0) {
     indexSpot--; } 
   objectCard.importance = importanceArray[indexSpot];
+  //change .quality in the DOM
   putIntoStorage(objectCard);
 }
 
