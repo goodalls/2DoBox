@@ -8,7 +8,7 @@
 $(window).on('load', getCardsFromStorage);
 
 
-$('#description-input , #title-input').on('keyup', disableSaveButton)
+$('#description-input , #title-input').on('keyup', disableSaveButton);
 
 function disableSaveButton() {
   if ($('#title-input').val() === "" || $('#description-input').val() === "") {
@@ -16,7 +16,7 @@ function disableSaveButton() {
   } else {
     $('#save-button').prop('disabled', false);
   }
-};
+}
 
 $('#save-button').on('click', saveButtonClick);
 
@@ -25,66 +25,53 @@ function saveButtonClick (event) {
   captureUserInput();
   resetInputFields();
   disableSaveButton();
-};
+}
 
-// card button event listener
 
-$('#card-section').on('click', cardHandeler)
-
-function cardHandeler (event) {
-  event.preventDefault();
-  deleteButtonClick(event);
-  completedButtonClick(event);
-  if (event.target.closest('.upvote')) {
-    upvoteButton();
-  } if (event.target.closest('.downvote')) {
-    downvoteButton();
-  }
-};
 
 function deleteButtonClick (event) {
-  var currentId = event.target.closest('.card').id
+  var currentId = event.target.closest('.card').id;
   if (event.target.closest('.delete')){
   event.target.closest('article').remove();
   localStorage.removeItem(currentId);
   }
-};
+}
 
 function completedButtonClick(event) {
-  var currentId = event.target.closest('.card').id
+  var currentId = event.target.closest('.card').id;
   if (event.target.closest('.completed-card-button') && $(`#${currentId}`).hasClass('completed')) {
       $(`#${currentId}`).removeClass('completed');
       $(`#${currentId}`).css('textDecoration', '')
     } else {
       $(`#${currentId}`).addClass('completed');
-      $(`#${currentId}`).css('textDecoration', 'line-through')
+      $(`#${currentId}`).css('textDecoration', 'line-through');
       modifyObject(currentId);
     }
-  };
+  }
 
 function modifyObject (id) {
   var retrievedCard = localStorage.getItem(id);
   var parsedCard = JSON.parse(retrievedCard);
   parsedCard.completed = true;
-  putIntoStorage(parsedCard)
-};
+  putIntoStorage(parsedCard);
+}
 
-$('.show-completed').on('click', getCompletedCardsFromStorage)
+$('.show-completed').on('click', getCompletedCardsFromStorage);
 
 function getCompletedCardsFromStorage() {
   for(var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedCard = JSON.parse(retrievedCard);
-    console.log(parsedCard.id)
+    console.log(parsedCard.id);
     if(parsedCard.completed === true){
     prependCard(parsedCard);
        $(`#${parsedCard.idNum}`).addClass('completed');
-      $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through')
+      $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through');
     }
   }
-};
+}
 
-$('#card-section').on('keyup blur', editCardBlur)
+$('#card-section').on('keyup blur', editCardBlur);
 
 function editCardBlur(event) {
   if (event.target.closest('.title')){
@@ -94,7 +81,7 @@ function editCardBlur(event) {
     event.preventDefault();
     editCardDescription();
   }
-};
+}
 
 
 
@@ -102,14 +89,14 @@ function editCardBlur(event) {
 
 
 
-$('#search-input').keypress(removeFocus)
+$('#search-input').keypress(removeFocus);
 
 function removeFocus(event) {
   if(event.keyCode === 13) {
     event.preventDefault();
     $(this).blur();
   } 
-};
+}
 
 $('#search-input').keyup(searchFunction);
 
@@ -123,25 +110,25 @@ function searchFunction(event) {
     {obj, currentId}
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedCard);
-    var currentId = parsedObject['idNum'];
+    var currentId = parsedObject.idNum;
     
-    if (parsedObject['title'].toUpperCase().includes(filteredText) || parsedObject['body'].toUpperCase().includes($(this).val().toUpperCase())) {
+    if (parsedObject.title.toUpperCase().includes(filteredText) || parsedObject.body.toUpperCase().includes($(this).val().toUpperCase())) {
       $(`#${currentId}`).css( "display", "" );
     } else {
       $(`#${currentId}`).css( "display", "none");
     }
   }
-};
+}
 
 // FUNCTIONS 
 
 // create card function
 
-function Card(title, body, idNum, quality) {
+function Card(title, body, idNum, importance) {
   this.title = title;
   this.body = body;
   this.idNum = idNum;
-  this.quality = quality || 'swill';
+  this.importance = importance || 'Low';
   this.completed = false;
 }
 
@@ -155,7 +142,7 @@ function captureUserInput (title, body) {
 
 function putIntoStorage(object) {
   var stringCard = JSON.stringify(object);
-  localStorage.setItem(object['idNum'], stringCard);
+  localStorage.setItem(object.idNum, stringCard);
 } 
 
 
@@ -170,7 +157,7 @@ function prependCard(card) {
         <div id="card-quality-container">
           <button class="small-grey-button upvote" name="up-vote-button"></button>
           <button class="small-grey-button downvote" name="down-vote-button"></button>
-          <h3 class="card-headings importance-level">quality : <span class="quality">${card['quality']}</span></h3>
+          <h3 class="card-headings importance-level">importance : <span class="quality">${card['importance']}</span></h3>
           <button class="completed-card-button" name="completed-button">Completed Button</button>
         </div>
     </article>`);
@@ -206,38 +193,52 @@ function getCardsFromStorage() {
 
 // }
 
-function downvoteButton() {
-  console.log(event.target.classList);
+// Importance Array function
+
+
+// card button event listener
+
+$('#card-section').on('click', cardHandeler);
+
+function cardHandeler (event) {
+
+  deleteButtonClick(event);
+  if (event.target.closest('.upvote')) {
+    upvoteAction();
+  } if (event.target.closest('.downvote')) {
+    downvoteAction();
+  }
+}
+
+function retrieveData() {
   var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
-  // retrieveNewQuality(parsedObject.quality, 'down')
-  if (parsedObject.quality === 'genius') {
-    parsedObject.quality = 'plausible';
-    $(`#${currentId} .quality`).text('plausible');
-  } else if (parsedObject.quality === 'plausible'){
-    parsedObject.quality = 'swill';
-    $(`#${currentId} .quality`).text('swill');
-    // $(`#${currentId} .quality`).text(parsedData.obj.quality);
-  }
-  putIntoStorage(parsedObject);
+  return parsedObject;
 }
 
-function upvoteButton() {
-  var currentId = event.target.closest('.card').id;
-  var retrievedObject = localStorage.getItem(currentId);
-  var parsedObject = JSON.parse(retrievedObject);
-  if( parsedObject.quality === 'swill') {
-    parsedObject.quality = 'plausible';
-    $(`#${currentId} .quality`).text('plausible');
-  } else if (parsedObject.quality === 'plausible'){
-    parsedObject.quality = 'genius';
-    $(`#${currentId} .quality`).text('genius');
-  }
-  putIntoStorage(parsedObject);
+function upvoteAction() {
+  var objectCard = retrieveData();
+  var importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
+  var indexSpot = importanceArray.indexOf(objectCard.importance);
+  if (indexSpot !== 4) {
+    indexSpot++; } 
+  objectCard.importance = importanceArray[indexSpot];
+  
+  putIntoStorage(objectCard);
 }
 
-// edit card functions
+function downvoteAction() {
+  var objectCard = retrieveData();
+  var importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
+  var indexSpot = importanceArray.indexOf(objectCard.importance);
+  if (indexSpot !== 0) {
+    indexSpot--; } 
+  objectCard.importance = importanceArray[indexSpot];
+  putIntoStorage(objectCard);
+}
+
+
 
 function editCardTitle() {
   var currentId = event.target.closest('.card').id;
