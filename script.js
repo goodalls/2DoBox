@@ -1,10 +1,5 @@
 
 
-// EVENT LISTENERS
-
-// card creation event listeners
-
-
 $(window).on('load', getCardsFromStorage);
 
 
@@ -34,11 +29,14 @@ $('#card-section').on('click', cardHandeler)
 function cardHandeler (event) {
   event.preventDefault();
   deleteButtonClick(event);
-  completedButtonClick(event);
   if (event.target.closest('.upvote')) {
-    upvoteButton();
+    // upvoteButton();
+    newImportance(event);
   } if (event.target.closest('.downvote')) {
-    downvoteButton();
+    // downvoteButton();
+    newImportance(event);
+  } if (event.target.closest('.completed-card-button')) {
+    completedButtonClick(event);
   }
 };
 
@@ -52,7 +50,7 @@ function deleteButtonClick (event) {
 
 function completedButtonClick(event) {
   var currentId = event.target.closest('.card').id
-  if (event.target.closest('.completed-card-button') && $(`#${currentId}`).hasClass('completed')) {
+  if ($(`#${currentId}`).hasClass('completed')) {
       $(`#${currentId}`).removeClass('completed');
       $(`#${currentId}`).css('textDecoration', '')
     } else {
@@ -61,6 +59,7 @@ function completedButtonClick(event) {
       modifyObject(currentId);
     }
   };
+
 
 function modifyObject (id) {
   var retrievedCard = localStorage.getItem(id);
@@ -80,6 +79,7 @@ function getCompletedCardsFromStorage() {
     prependCard(parsedCard);
        $(`#${parsedCard.idNum}`).addClass('completed');
       $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through')
+
     }
   }
 };
@@ -137,11 +137,11 @@ function searchFunction(event) {
 
 // create card function
 
-function Card(title, body, idNum, quality) {
+function Card(title, body, idNum, importance) {
   this.title = title;
   this.body = body;
   this.idNum = idNum;
-  this.quality = quality || 'swill';
+  this.importance = importance || 'Normal';
   this.completed = false;
 }
 
@@ -192,33 +192,16 @@ function getCardsFromStorage() {
   }
 };
 
-
-// function retrieveNewImportance(currentQuality, direction) {
-//   var importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical'] 
-  // 
-
-  //Math.Min(4, findIndex + 1)
-  //Math.min
-  //Math.max(0, findIndex + 1)
-//   if (direction === 'down'){
-
-//   }
-
-// }
-
 function downvoteButton() {
-  console.log(event.target.classList);
   var currentId = event.target.closest('.card').id;
   var retrievedObject = localStorage.getItem(currentId);
   var parsedObject = JSON.parse(retrievedObject);
-  // retrieveNewQuality(parsedObject.quality, 'down')
   if (parsedObject.quality === 'genius') {
     parsedObject.quality = 'plausible';
     $(`#${currentId} .quality`).text('plausible');
   } else if (parsedObject.quality === 'plausible'){
     parsedObject.quality = 'swill';
     $(`#${currentId} .quality`).text('swill');
-    // $(`#${currentId} .quality`).text(parsedData.obj.quality);
   }
   putIntoStorage(parsedObject);
 }
@@ -235,7 +218,7 @@ function upvoteButton() {
     $(`#${currentId} .quality`).text('genius');
   }
   putIntoStorage(parsedObject);
-}
+};
 
 // edit card functions
 
