@@ -14,7 +14,7 @@ html {
 }
 
 body {
-  overflow: scroll;
+  overflow: hidden;
   height: 100%
 }
 
@@ -272,7 +272,7 @@ p {
   max-width: 400px;
   margin: auto;
   overflow-y: auto;
-  height: 80%;
+  height: 71%;
 }
 
 h2.to-do-label {
@@ -366,7 +366,7 @@ article.card:nth-child(n+10) {
   }
 
   #box-section {
-    height: 78.3;
+    height: 72.3%;
     padding: 10px 15px 15px 15px;
   }
 
