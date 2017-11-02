@@ -242,12 +242,16 @@ function editCardDescription() {
 }
 
 $('.critical').on('click', showCritical)
+$('.high').on('click', showHigh)
+$('.normal').on('click', showNormal)
+$('.low').on('click', showLow)
+$('.none').on('click', showNone)
 
 function showCritical(event) {  
-  var retrievedObject = localStorage.getItem(currentId);
-  var parsedObject = JSON.parse(retrievedObject);
-  var object = 
+  $('.critical').addClass('activeBtn')
   for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
     if (object.importance === 'Critical'){
       $(`#${object.idNum}`).css( "display", "" );
     } else {
@@ -256,3 +260,54 @@ function showCritical(event) {
   }
 };  
 
+function showHigh(event) {  
+  $('.high').addClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'High'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};
+
+function showNormal(event) {  
+  $('.normal').addClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'Normal'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};
+
+function showLow(event) {  
+  $('.low').addClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'Low'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};
+
+function showNone(event) {  
+  $('.none').addClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'None'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};
