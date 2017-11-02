@@ -1,10 +1,28 @@
+// CHARACTER CCOUNT FUNCTIONALITY! 
+// $('#description-input, #title-input').on('keyup', charCount);
+// function charCount(event) {
+//   if (event.currentTarget.id == 'title-input'){
+//     $('#title-count').text($(event.currentTarget).val().length);
+//   }
+//   if (event.currentTarget.id == 'description-input'){
+//     $('#description-count').text($(event.currentTarget).val().length);
+//   }
+//   if ($('#title-input').val().length >= 120 || $('#description-input').val().length >= 120) {
+//     console.log('about to disable a button')
+//     $('#save-button').prop('disabled', true);
+//   } else { console.log('about to enable the button')
+//     $('#save-button').prop('disabled', false);
+//   }
+// };
+
 function disableSaveButton() {
+  console.log('disable function should be running now')
   if ($('#title-input').val() == "" || $('#description-input').val() == "") {
     $('#save-button').prop('disabled', true);
   } else {
     $('#save-button').prop('disabled', false);
   }
-}
+};
 
 function saveButtonClick (event) {
   event.preventDefault();
@@ -61,7 +79,7 @@ function getCompletedCardsFromStorage() {
       $(`#${parsedCard.idNum}`).addClass('completed');
       $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through')
     }
-  }
+  };
 };
 
 function editCardBlur(event) {
@@ -82,17 +100,14 @@ function removeFocus(event) {
 };
 
 function searchFunction(event) {
-  var searchText = $(this).val();
-  var filteredText = searchText.toUpperCase();
   for (var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedCard);
-    var currentId = parsedObject.idNum;
-    if (parsedObject.title.toUpperCase().includes(filteredText) || 
-      parsedObject.body.toUpperCase().includes($(this).val().toUpperCase())) {
-      $(`#${currentId}`).css( "display", "" );
+    if (parsedObject.title.toUpperCase().includes($(this).val().toUpperCase()) || 
+        parsedObject.body.toUpperCase().includes($(this).val().toUpperCase())) {
+      $(`#${parsedObject.idNum}`).css( "display", "" );
     } else {
-      $(`#${currentId}`).css( "display", "none");
+      $(`#${parsedObject.idNum}`).css( "display", "none");
     }
   }
 };
@@ -195,7 +210,6 @@ function editCardTitle() {
   object['title'] = $(`#${object.idNum} .title`).text();
   putIntoStorage(object);
 };
-
 function editCardDescription() {
   var object = retrieveData();
   object['body'] = $(`#${object.idNum} .description`).text();
