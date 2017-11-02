@@ -45,15 +45,16 @@ function showAllCard(event) {
 };
 
 function completedButtonClick(event) {
-  var currentId = event.target.closest('.card').id
-  if ($(`#${currentId}`).hasClass('completed')) {
-    $(`#${currentId}`).removeClass('completed');
-    $(`#${currentId}`).css('textDecoration', '')
-    modifyObjectFalse(currentId);
+  // var currentId = event.target.closest('.card').id
+  var object = retrieveData();
+  if ($(`#${object.idNum}`).hasClass('completed')) {
+    $(`#${object.idNum}`).removeClass('completed');
+    $(`#${object.idNum}`).css('textDecoration', '')
+    modifyObjectFalse(object);
   } else {
-    $(`#${currentId}`).addClass('completed');
-    $(`#${currentId}`).css('textDecoration', 'line-through');
-    modifyObjectTrue(currentId);
+    $(`#${object.idNum}`).addClass('completed');
+    $(`#${object.idNum}`).css('textDecoration', 'line-through');
+    modifyObjectTrue(object);
   }
 };
 
@@ -79,7 +80,7 @@ function getCompletedCardsFromStorage() {
       $(`#${parsedCard.idNum}`).addClass('completed');
       $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through')
     }
-  };
+  }
 };
 
 function editCardBlur(event) {
