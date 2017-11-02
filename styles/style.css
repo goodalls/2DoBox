@@ -67,7 +67,7 @@ textarea:focus {
   border: 1px solid #A7A9AC;
   color: #6D6E71;
   height: 26px;
-  margin-bottom: 11px;
+  margin-bottom: 25px;
   padding: 0;
   text-indent: 6px;
   min-width: 205px;
@@ -93,7 +93,21 @@ textarea:focus {
   flex-direction: column;
   padding: 0 15px;
   margin: auto;
+  position: relative;
   max-width: 400px;
+}
+
+#title-count {
+  position: absolute;
+  top: -17px;
+  right: 16px;
+  text-align: right;
+}
+
+#description-count {
+  position: absolute;
+  right: 16px;
+  top: 34px;
 }
 
 .show-completed,
@@ -258,7 +272,7 @@ p {
   max-width: 400px;
   margin: auto;
   overflow-y: auto;
-  height: 70%;
+  height: 80%;
 }
 
 h2.to-do-label {
