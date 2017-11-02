@@ -3,6 +3,7 @@
 $(window).on('load', getCardsFromStorage);
 
 
+
 $('#description-input , #title-input').on('keyup', disableSaveButton);
 
 function disableSaveButton() {
@@ -20,6 +21,7 @@ function saveButtonClick (event) {
   captureUserInput();
   resetInputFields();
   disableSaveButton();
+
 }
 
 
@@ -30,6 +32,8 @@ function deleteButtonClick (event) {
   localStorage.removeItem(currentId);
   }
 }
+
+
 
 function completedButtonClick(event) {
   var currentId = event.target.closest('.card').id

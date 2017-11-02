@@ -305,6 +305,11 @@ h2.to-do-label span {
   padding-top: 15px;
 }
 
+article.card:nth-child(n+10) {
+    display:none;
+}
+
+
 ::-webkit-scrollbar {
     width: 0;  
     background: transparent;  
