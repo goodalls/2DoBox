@@ -108,17 +108,12 @@ function removeFocus(event) {
 $('#search-input').keyup(searchFunction);
 
 function searchFunction(event) {
-  event.preventDefault();
-  // var searchText = $(this).val();
-  // var filteredText = searchText.toUpperCase();
-  
+  var searchText = $(this).val();
+  var filteredText = searchText.toUpperCase();
   for (var i = 0; i < localStorage.length; i++) {
-    var parsedData = retrieveCard(i);
-    {obj, currentId}
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedCard);
     var currentId = parsedObject.idNum;
-    
     if (parsedObject.title.toUpperCase().includes(filteredText) || parsedObject.body.toUpperCase().includes($(this).val().toUpperCase())) {
       $(`#${currentId}`).css( "display", "" );
     } else {
@@ -213,7 +208,6 @@ function upvoteAction() {
   if (indexSpot !== 4) {
     indexSpot++; } 
   objectCard.importance = importanceArray[indexSpot];
-  console.log(objectCard.importance)
   $(`#${objectCard.idNum} .quality`).text(objectCard.importance);
   putIntoStorage(objectCard);
 }
@@ -246,5 +240,78 @@ function editCardDescription() {
   putIntoStorage(parsedObject);
 }
 
+$('.critical').on('click', showCritical)
+$('.high').on('click', showHigh)
+$('.normal').on('click', showNormal)
+$('.low').on('click', showLow)
+$('.none').on('click', showNone)
 
+function showCritical(event) {  
+  $('button').removeClass('activeBtn')
+  $('.critical').toggleClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'Critical'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};  
 
+function showHigh(event) { 
+$('button').removeClass('activeBtn') 
+  $('.high').toggleClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'High'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};
+
+function showNormal(event) {  
+  $('button').removeClass('activeBtn')
+  $('.normal').toggleClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'Normal'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};
+
+function showLow(event) {  
+  $('button').removeClass('activeBtn')
+  $('.low').toggleClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'Low'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};
+
+function showNone(event) {  
+  $('button').removeClass('activeBtn')
+  $('.none').toggleClass('activeBtn')
+  for (var i = 0; i < localStorage.length; i++) {
+    var retrievedCard = localStorage.getItem(localStorage.key(i));
+    var object = JSON.parse(retrievedCard);
+    if (object.importance === 'None'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};
