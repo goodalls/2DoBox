@@ -209,7 +209,6 @@ function upvoteAction() {
   if (indexSpot !== 4) {
     indexSpot++; } 
   objectCard.importance = importanceArray[indexSpot];
-  console.log(objectCard.importance)
   $(`#${objectCard.idNum} .quality`).text(objectCard.importance);
   putIntoStorage(objectCard);
 }
@@ -242,5 +241,18 @@ function editCardDescription() {
   putIntoStorage(parsedObject);
 }
 
+$('.critical').on('click', showCritical)
 
+function showCritical(event) {  
+  var retrievedObject = localStorage.getItem(currentId);
+  var parsedObject = JSON.parse(retrievedObject);
+  var object = 
+  for (var i = 0; i < localStorage.length; i++) {
+    if (object.importance === 'Critical'){
+      $(`#${object.idNum}`).css( "display", "" );
+    } else {
+      $(`#${object.idNum}`).css( "display", "none");
+    }
+  }
+};  
 
