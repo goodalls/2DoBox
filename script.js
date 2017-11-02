@@ -7,7 +7,7 @@ $(window).on('load', getCardsFromStorage);
 $('#description-input , #title-input').on('keyup', disableSaveButton);
 
 function disableSaveButton() {
-  if ($('#title-input').val() === "" || $('#description-input').val() === "") {
+  if ($('#title-input').val() == "" || $('#description-input').val() == "") {
     $('#save-button').prop('disabled', true);
   } else {
     $('#save-button').prop('disabled', false);
@@ -34,6 +34,12 @@ function deleteButtonClick (event) {
 }
 
 
+$('.show-more').on('click', showAllCard);
+
+function showAllCard(event) {
+  $('article').show();
+  event.stopPropagation();
+}
 
 function completedButtonClick(event) {
   var currentId = event.target.closest('.card').id
@@ -70,7 +76,7 @@ function getCompletedCardsFromStorage() {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedCard = JSON.parse(retrievedCard);
     console.log(parsedCard.id);
-    if(parsedCard.completed === true){
+    if(parsedCard.completed == true){
     prependCard(parsedCard);
        $(`#${parsedCard.idNum}`).addClass('completed');
       $(`#${parsedCard.idNum}`).css('textDecoration', 'line-through')
@@ -99,7 +105,7 @@ function editCardBlur(event) {
 $('#search-input').keypress(removeFocus);
 
 function removeFocus(event) {
-  if(event.keyCode === 13) {
+  if(event.keyCode == 13) {
     event.preventDefault();
     $(this).blur();
   } 
@@ -114,7 +120,8 @@ function searchFunction(event) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedCard);
     var currentId = parsedObject.idNum;
-    if (parsedObject.title.toUpperCase().includes(filteredText) || parsedObject.body.toUpperCase().includes($(this).val().toUpperCase())) {
+    if (parsedObject.title.toUpperCase().includes(filteredText) || 
+        parsedObject.body.toUpperCase().includes($(this).val().toUpperCase())) {
       $(`#${currentId}`).css( "display", "" );
     } else {
       $(`#${currentId}`).css( "display", "none");
@@ -175,7 +182,7 @@ function getCardsFromStorage() {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedCard = JSON.parse(retrievedCard);
 
-    if(parsedCard.completed === false){
+    if(parsedCard.completed == false){
     prependCard(parsedCard);
     }
   }
@@ -185,11 +192,16 @@ $('#card-section').on('click', cardHandeler);
 
 function cardHandeler (event) {
   deleteButtonClick(event);
+  
   if (event.target.closest('.upvote')) {
    upvoteAction();
-  } if (event.target.closest('.downvote')) {
+  } 
+
+  if (event.target.closest('.downvote')) {
     downvoteAction();
-  } if (event.target.closest('.completed-card-button')) {
+  } 
+
+  if (event.target.closest('.completed-card-button')) {
     completedButtonClick(event);
   }
 };
@@ -205,7 +217,7 @@ function upvoteAction() {
   var objectCard = retrieveData();
   var importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
   var indexSpot = importanceArray.indexOf(objectCard.importance);
-  if (indexSpot !== 4) {
+  if (indexSpot != 4) {
     indexSpot++; } 
   objectCard.importance = importanceArray[indexSpot];
   $(`#${objectCard.idNum} .quality`).text(objectCard.importance);
@@ -216,7 +228,7 @@ function downvoteAction() {
   var objectCard = retrieveData();
   var importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
   var indexSpot = importanceArray.indexOf(objectCard.importance);
-  if (indexSpot !== 0) {
+  if (indexSpot != 0) {
     indexSpot--; } 
   objectCard.importance = importanceArray[indexSpot];
   $(`#${objectCard.idNum} .quality`).text(objectCard.importance);
