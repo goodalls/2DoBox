@@ -175,7 +175,8 @@ p {
 }
 
 .completed {
-  background-color: #D1D2D4;
+  background-color: #eee;
+  padding: 20px;
 }
 
 /*BUTTON STATES*/
