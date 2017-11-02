@@ -1,4 +1,4 @@
-// CHARACTER CCOUNT FUNCTIONALITY! 
+// CHARACTER COUNT FUNCTIONALITY! 
 // $('#description-input, #title-input').on('keyup', charCount);
 // function charCount(event) {
 //   if (event.currentTarget.id == 'title-input'){
