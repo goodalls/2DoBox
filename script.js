@@ -104,17 +104,12 @@ function removeFocus(event) {
 $('#search-input').keyup(searchFunction);
 
 function searchFunction(event) {
-  event.preventDefault();
-  // var searchText = $(this).val();
-  // var filteredText = searchText.toUpperCase();
-  
+  var searchText = $(this).val();
+  var filteredText = searchText.toUpperCase();
   for (var i = 0; i < localStorage.length; i++) {
-    var parsedData = retrieveCard(i);
-    {obj, currentId}
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedCard);
     var currentId = parsedObject.idNum;
-    
     if (parsedObject.title.toUpperCase().includes(filteredText) || parsedObject.body.toUpperCase().includes($(this).val().toUpperCase())) {
       $(`#${currentId}`).css( "display", "" );
     } else {
@@ -248,7 +243,8 @@ $('.low').on('click', showLow)
 $('.none').on('click', showNone)
 
 function showCritical(event) {  
-  $('.critical').addClass('activeBtn')
+  $('button').removeClass('activeBtn')
+  $('.critical').toggleClass('activeBtn')
   for (var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var object = JSON.parse(retrievedCard);
@@ -260,8 +256,9 @@ function showCritical(event) {
   }
 };  
 
-function showHigh(event) {  
-  $('.high').addClass('activeBtn')
+function showHigh(event) { 
+$('button').removeClass('activeBtn') 
+  $('.high').toggleClass('activeBtn')
   for (var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var object = JSON.parse(retrievedCard);
@@ -274,7 +271,8 @@ function showHigh(event) {
 };
 
 function showNormal(event) {  
-  $('.normal').addClass('activeBtn')
+  $('button').removeClass('activeBtn')
+  $('.normal').toggleClass('activeBtn')
   for (var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var object = JSON.parse(retrievedCard);
@@ -287,7 +285,8 @@ function showNormal(event) {
 };
 
 function showLow(event) {  
-  $('.low').addClass('activeBtn')
+  $('button').removeClass('activeBtn')
+  $('.low').toggleClass('activeBtn')
   for (var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var object = JSON.parse(retrievedCard);
@@ -300,7 +299,8 @@ function showLow(event) {
 };
 
 function showNone(event) {  
-  $('.none').addClass('activeBtn')
+  $('button').removeClass('activeBtn')
+  $('.none').toggleClass('activeBtn')
   for (var i = 0; i < localStorage.length; i++) {
     var retrievedCard = localStorage.getItem(localStorage.key(i));
     var object = JSON.parse(retrievedCard);
